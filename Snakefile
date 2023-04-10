@@ -12,5 +12,5 @@ rule write_file:
         mem=30
     shell:
         """
-        python --version > {output:q}
+        python -c "import pymc3;print(pymc3.__version__)" > {output:q}
         """
