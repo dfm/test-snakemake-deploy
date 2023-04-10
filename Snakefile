@@ -1,17 +1,16 @@
-from snakemake.remote.GS import RemoteProvider as GSRemoteProvider
-
-GS = GSRemoteProvider()
-
 rule all:
     input:
-        [GS.remote(f"test-bucket/{name}.txt") for name in ["a", "b"]]
+        [f"{name}.txt" for name in ["a", "b"]]
     
 rule write_file:
     output:
-        GS.remote("test-bucket/{name}.txt")
+        "{name}.txt"
     conda:
         "workflow/envs/environment.yml"
+    threads: 1
+    resources:
+        mem=30
     shell:
         """
-        echo "Hello World" > {output:q}
+        python --version > {output:q}
         """
